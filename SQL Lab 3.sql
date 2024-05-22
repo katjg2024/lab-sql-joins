@@ -38,5 +38,36 @@ JOIN category AS c
 ON fc.category_id = c.category_id
 GROUP BY c.name;
 
+-- 5. Display the top 10 most frequently rented movies in descending order.
+-- 6. Determine if "Academy Dinosaur" can be rented from Store 1.
+-- 7. Provide a list of all distinct film titles, along with their availability status in the inventory. 
+-- Include a column indicating whether each title is 'Available' or 'NOT available.' Note that there are 42 titles 
+-- that are not in the inventory, and this information can be obtained using a CASE statement combined with IFNULL."
+
+SELECT f.title AS movie, COUNT(r.rental_id) AS rental_count
+FROM film AS f
+JOIN inventory AS i
+ON f.film_id = i.film_id
+JOIN rental AS r 
+ON i.inventory_id = r.inventory_id
+GROUP BY f.title
+ORDER BY rental_count DESC
+LIMIT 10;
+
+-- Determine if "Academy Dinosaur" can be rented from Store 1.
+
+-- SELECT s.store_id, f.film_id, f.title, r.staff_id, i.inventory_id, r.rental_id
+SELECT COUNT(*)
+FROM rental AS r
+JOIN inventory AS i
+ON i.inventory_id = r.inventory_id
+JOIN film AS f
+ON f.film_id = i.film_id
+JOIN store AS s
+ON i.store_id = s.store_id
+WHERE f.title = 'Academy Dinosaur' AND s.store_id = 1;
+
+
+
 
 
